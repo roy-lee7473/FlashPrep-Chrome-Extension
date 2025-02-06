@@ -16,7 +16,7 @@ html {
 
 body {
     width: 350px;
-    height: 300px;
+    height: 400px;
 }
 
 .app {
@@ -67,7 +67,7 @@ code {
     padding: 10px 20px;
     margin-right: 4px;
     margin-left: 4px;
-    background-color: bisque;
+    background-color: #65bc42c0;
     font-size: 16px;
     cursor: pointer;
     border-radius: 4px;

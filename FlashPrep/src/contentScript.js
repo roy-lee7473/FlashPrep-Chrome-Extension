@@ -14,30 +14,46 @@
 // Log `title` of current active web page
 const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
 console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
+    `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
 );
 
 // Communicate with background file by sending a message
 chrome.runtime.sendMessage(
-  {
-    type: 'GREETINGS',
-    payload: {
-      message: 'Hello, my name is Con. I am from ContentScript.',
+    {
+        type: 'GREETINGS',
+        payload: {
+            message: 'Hello, my name is Con. I am from ContentScript.',
+        },
     },
-  },
-  response => {
-    console.log(response.message);
-  }
+    response => {
+        console.log(response.message);
+    }
 );
 
 // Listen for message
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
-  }
+    if (request.type === 'COUNT') {
+        console.log(`Current count is ${request.payload.count}`);
+    }
+    else if (request.type === 'STORE_DOC_TEXT') {
+        const message = storeDocumentText();
+        sendResponse({ message: message });
+    }
 
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
-  sendResponse({});
-  return true;
+    // Send an empty response
+    // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
+    //sendResponse({});
+    return true;
 });
+
+
+function storeDocumentText() {
+    chrome.runtime.sendMessage(
+        {
+            type: 'STORE_DOC_TEXT',
+            payload: {
+                innerText: document.body.innerText
+            },
+        }
+    );
+}

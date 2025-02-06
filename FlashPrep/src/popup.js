@@ -1,6 +1,5 @@
 'use strict';
 
-
 (function () {
     // We will make use of Storage API to get and store `count` value
     // More information on Storage API can we found at
@@ -41,6 +40,32 @@
                 type: 'DECREMENT',
             });
         });
+        
+        document.getElementById('readDocumentButton').addEventListener('click', () => {
+            sendReadDocumentRequest();
+        });
+    }
+
+
+    function sendReadDocumentRequest() {
+        // Communicate with content script of
+        // active tab by sending a message
+        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            const tab = tabs[0];
+
+            chrome.tabs.sendMessage(
+                tab.id,
+                {
+                    type: 'STORE_DOC_TEXT',
+                    payload: {},
+                }
+            );
+        });
+    }
+
+    function updateDocumentReadText(text) {
+        document.getElementById('textTitle').innerText = "Extracted Text:";
+        document.getElementById('extractedText').innerText = text;
     }
 
     function updateCounter({ type }) {
@@ -97,13 +122,20 @@
 
     document.addEventListener('DOMContentLoaded', restoreCounter);
 
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.type === "DATA_STORED") {
+            updateDocumentReadText(request.payload.extractedText);
+        }
+    });
+
+
     // Communicate with background file by sending a message
     chrome.runtime.sendMessage(
         {
             type: 'GREETINGS',
             payload: {
                 message: 'Hello, my name is Pop. I am from Popup.',
-            },
+            }
         },
         response => {
             console.log(response.message);
