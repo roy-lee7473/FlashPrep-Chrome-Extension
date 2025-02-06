@@ -68,6 +68,7 @@
         document.getElementById('extractedText').innerText = text;
     }
 
+
     function updateCounter({ type }) {
         counterStorage.get(count => {
             let newCount;
@@ -106,6 +107,12 @@
         });
     }
 
+
+    function restoreDocumentReadText() {
+        chrome.storage.sync.get("extractedText", (data) => {
+            updateDocumentReadText(data.extractedText);
+        });
+    }
     function restoreCounter() {
         // Restore count value
         counterStorage.get(count => {
@@ -120,6 +127,7 @@
         });
     }
 
+    document.addEventListener('DOMContentLoaded', restoreDocumentReadText);
     document.addEventListener('DOMContentLoaded', restoreCounter);
 
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
