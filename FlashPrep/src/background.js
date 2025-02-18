@@ -4,6 +4,23 @@
 // and contentScript files.
 // For more information on background script,
 // See https://developer.chrome.com/extensions/background_pages
+chrome.action.onClicked.addListener(async (tab) => {
+    // Check if the tab URL is valid for injection
+    if (tab.url.startsWith("chrome://") || tab.url.startsWith("about:") || tab.url.startsWith("edge://")) {
+        console.warn("Cannot inject script into a chrome:// or about: page.");
+        return;
+    }
+
+    try {
+        await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ["src/customPopup.js"]
+        });
+    } catch (error) {
+        console.error("Failed to inject script:", error);
+    }
+});
+
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 

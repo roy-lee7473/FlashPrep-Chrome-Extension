@@ -7,16 +7,19 @@
 </head>
 <body>
   <div class="app">
-    <p class="counter-label">Counter</p>
-    <div id="counter" class="counter"></div>
+    <div class="topImages">
+      <button class="settingsButton imageButton">
+        <img src="images/settings.png" alt="Settings Button" />
+      </button>
+      <button class="exitButton imageButton">
+        <img src="images/exit.png" alt="Exit Button" />
+      </button>
+      <img class="logo" src="icons/icon_128.png" alt="FlashPrep Logo" />
+    </div>
+    
     <div class="button-container">
-      <button id="decrementBtn" class="button">-</button>
-      <button id="incrementBtn" class="button">+</button>
       <button id="readDocumentButton" class="button">Read Page</button>
     </div>
-
-    <hr class="divider" />
-
     <p id="textTitle" class="title">Extracted Text:</p>
     <div>
       <p id="extractedText" class="outputTextBox">Click the "Read Page" Button to extract this webpage's text</p>

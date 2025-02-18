@@ -46,6 +46,8 @@
         });
     }
 
+    //automatically read document on popup display
+    sendReadDocumentRequest();
 
     function sendReadDocumentRequest() {
         // Communicate with content script of

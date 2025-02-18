@@ -14,10 +14,10 @@
         "service_worker": "src/background.js"
     },
     "action": {
-        "default_title": "FlashPrep",
-        "default_popup": "public/popup.html"
+        "default_title": "FlashPrep"
     },
     "permissions": [
+        "activeTab",
         "storage",
         "scripting"
     ],
@@ -35,5 +35,9 @@
                 "src/contentScript.js"
             ]
         }
-    ]
+    ],
+    "web_accessible_resources": [{
+      "resources": ["public/*", "src/popup.css"],
+      "matches": ["<all_urls>"]
+    }]
 }
