@@ -7,6 +7,7 @@
 </head>
 <body>
   <div class="app">
+    <div class="curved-header"></div>
     <div class="topImages">
       <button class="settingsButton imageButton">
         <img src="images/settings.png" alt="Settings Button" />
@@ -16,14 +17,27 @@
       </button>
       <img class="logo" src="icons/icon_128.png" alt="FlashPrep Logo" />
     </div>
-    
-    <div class="button-container">
-      <button id="readDocumentButton" class="button">Read Page</button>
-    </div>
-    <p id="textTitle" class="title">Extracted Text:</p>
     <div>
       <p id="extractedText" class="outputTextBox">Click the "Read Page" Button to extract this webpage's text</p>
     </div>
+    <div class="curved-footer"></div>
+    <div class="button-container">
+      <button class="button">
+        <img src="images/reload.png" alt="Reload Button" />
+      </button>
+      <button class="button">
+        <img src="images/copy.png" alt="Copy Button" />
+      </button>
+      <button class="button">
+        <img src="images/flash cards.png" alt="Flash Cards Button" />
+      </button>
+      <button class="button">
+        <img src="images/quiz.png" alt="Quiz Button" />
+      </button>
+    </div>
+    <button class="how-to-use-button">
+      <img src="images/how to use.png" alt="How to Use" />
+    </button>
   </div>
 
   <script src="../src/popup.js"></script>

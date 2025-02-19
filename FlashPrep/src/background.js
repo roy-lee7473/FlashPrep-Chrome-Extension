@@ -36,23 +36,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
     }
     else if(request.type === 'STORE_DOC_TEXT') {
-        const extractedText = cleanUpText(request.payload.innerText);
-        chrome.storage.sync.set({ extractedText: extractedText }, () => {
-            console.log(`Document saved in sync storage:\n[\n${extractedText}\n]`);
-            chrome.runtime.sendMessage(
-                {
-                    type: 'DATA_STORED',
-                    payload: {
-                        extractedText: extractedText
-                    },
-                }
-            );
+        const documentData = request.payload;
+        const extractedText = 
+            `<h2><b>Website:</b></h2>${cleanUpText(documentData.website)}<br><br>` +
+            `<h2><b>Title:</b></h2>${cleanUpText(documentData.title)}<br><br>` +
+            `<h2><b>Headings:</b></h2>${cleanUpText(documentData.headings)}<br><br>` +
+            `<h2><b>Page URL:</b></h2>${cleanUpText(documentData.pageURL)}<br><br>` +
+            `<h2><b>Author:</b></h2>${cleanUpText(documentData.author)}<br><br>` +
+            `<h2><b>Publication Date:</b></h2>${cleanUpText(documentData.pubDate)}<br><br>` +
+            `<h2><b>Metadata:</b></h2>${cleanUpText(documentData.metadata)}<br><br>` +
+            `<h2><b>Keywords:</b></h2>${cleanUpText(documentData.metakeywords)}<br><br>` +
+            `<h2><b>Content:</b></h2>${cleanUpText(documentData.content)}<br><br>` +
+            `<h2><b>Images:</b></h2>${cleanUpText(documentData.images.join("<br>"))}`;
+
+        chrome.storage.local.set({ extractedText }, () => {
+            console.log(`Document saved in local storage`);
+            // Send the extracted text back in the response
+            sendResponse({ extractedText });
         });
-        //sendResponse({ message: "Received and stored" });
+        return true; // Required to use sendResponse asynchronously
     }
 });
-
-
 
 function cleanUpText(text) {
 

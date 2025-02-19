@@ -37,7 +37,7 @@
         }
     ],
     "web_accessible_resources": [{
-      "resources": ["public/*", "src/popup.css"],
+      "resources": ["public/*", "src/popup.css", "src/background.js"],
       "matches": ["<all_urls>"]
     }]
 }

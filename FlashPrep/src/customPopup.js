@@ -49,11 +49,9 @@
                         // Initialize event listeners
                         setupCounter(shadow);
 
-                        // Restore extracted text
-                        chrome.storage.sync.get("extractedText", (data) => {
-                            if (data.extractedText) {
-                                updateDocumentReadText(shadow, data.extractedText);
-                            }
+                        // Restore extracted text from local storage instead of sync
+                        readDocument(shadow, (extractedText) => {
+                            updateDocumentReadText(shadow, extractedText);
                         });
                     }, 0);
                 })
@@ -88,10 +86,10 @@
         
         if (readDocumentButton) {
             readDocumentButton.addEventListener('click', () => {
-                readDocument(shadow);
+                readDocument(shadow, (extractedText) => {
+                    updateDocumentReadText(shadow, extractedText);
+                });
             });
-        } else {
-            console.log("Read Document button not found"); // Debug log
         }
         if (exitButton) {
             exitButton.addEventListener('click', () => {
@@ -105,19 +103,38 @@
         const extractedText = shadow.querySelector('#extractedText');
         
         if (textTitle) textTitle.innerText = "Extracted Text:";
-        if (extractedText) extractedText.innerText = text;
+        if (extractedText) extractedText.innerHTML = text;
     }
 
-    function readDocument(shadow) {
+    function readDocument(shadow, callback) {
         console.log("Reading document");
-        const text = document.body.innerText;
-        updateDocumentReadText(shadow, text);
-        
-        chrome.storage.sync.set({ extractedText: text }, () => {
-            chrome.runtime.sendMessage({
-                type: 'DATA_STORED',
-                payload: { extractedText: text }
-            });
+        const documentData = {
+            website: window.location.hostname,
+            content: document.querySelector('article')?.innerText || document.body.innerText,
+            title: document.querySelector('h1')?.innerText || document.title,
+            headings: Array.from(document.querySelectorAll("h1, h2, h3"))
+                .map(h => h.innerText)
+                .join(" "),
+            pageURL: window.location.href,
+            author: document.querySelector("[name='author']")?.content || 
+                   document.querySelector(".author, .byline")?.innerText || "",
+            pubDate: document.querySelector("time")?.dateTime || "",
+            metadata: document.querySelector('meta[name="description"]')?.getAttribute('content') || '',
+            metakeywords: document.querySelector('meta[name="keywords"]')?.getAttribute('content') || '',
+            images: Array.from(document.querySelectorAll("img")).map(img => img.src)
+        };
+
+        chrome.runtime.sendMessage({
+            type: 'STORE_DOC_TEXT',
+            payload: documentData
+        }, response => {
+            if (chrome.runtime.lastError) {
+                console.error("Error sending message:", chrome.runtime.lastError);
+                return;
+            }
+            if (response && response.extractedText) {
+                callback(response.extractedText);
+            }
         });
     }
 
