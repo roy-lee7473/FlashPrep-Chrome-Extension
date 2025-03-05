@@ -1,4 +1,12 @@
+
 (function () {
+    
+    const promptTypes = {
+        summary: "summary",
+        flashCards: "flashCards",
+        quiz: "quiz"
+    }
+
     // Create and inject the UI elements
     function createAndInjectUI() {
         if (!document.getElementById("extension-popup")) {
@@ -50,7 +58,7 @@
                         setupCounter(shadow);
 
                         // Restore extracted text from local storage instead of sync
-                        readDocument(shadow, (extractedText) => {
+                        readDocument(promptTypes.summary, (extractedText) => {
                             updateDocumentReadText(shadow, extractedText);
                         });
                     }, 0);
@@ -80,25 +88,42 @@
         },
     };
 
-    function setupCounter(shadow, initialValue = 0) {
-        const readDocumentButton = shadow.querySelector('.extension-popup #readDocumentButton');
+    function setupCounter(shadow) {
         const exitButton = shadow.querySelector('.extension-popup .exitButton');
+        const reloadButton = shadow.querySelector('.extension-popup .reloadButton');
+        const copyButton = shadow.querySelector('.extension-popup .copyButton');
+        const flashCardsButton = shadow.querySelector('.extension-popup .flashCardsButton');
+        const quizButton = shadow.querySelector('.extension-popup .quizButton');
         
-        if (readDocumentButton) {
-            readDocumentButton.addEventListener('click', () => {
-                readDocument(shadow, (extractedText) => {
-                    updateDocumentReadText(shadow, extractedText);
-                });
-            });
-        }
         if (exitButton) {
             exitButton.addEventListener('click', () => {
-                exitPopup(shadow);
+                exitPopup();
+            });
+        }
+        if (copyButton) {
+            copyButton.addEventListener('click', () => {
+                copyPrompt();
+            });
+        }
+        if (reloadButton) {
+            reloadButton.addEventListener('click', () => {
+                reloadSummarizePrompt(shadow);
+            });
+        }
+        if (flashCardsButton) {
+            flashCardsButton.addEventListener('click', () => {
+                flashCardPrompt(shadow);
+            });
+        }
+        if (quizButton) {
+            quizButton.addEventListener('click', () => {
+                quizPrompt(shadow);
             });
         }
     }
 
     function updateDocumentReadText(shadow, text) {
+        console.log(`new text: ${text}`);
         const textTitle = shadow.querySelector('#textTitle');
         const extractedText = shadow.querySelector('#extractedText');
         
@@ -106,7 +131,7 @@
         if (extractedText) extractedText.innerHTML = text;
     }
 
-    function readDocument(shadow, callback) {
+    function readDocument(promptType, callback) {
         console.log("Reading document");
         const documentData = {
             website: window.location.hostname,
@@ -123,22 +148,31 @@
             metakeywords: document.querySelector('meta[name="keywords"]')?.getAttribute('content') || '',
             images: Array.from(document.querySelectorAll("img")).map(img => img.src)
         };
+        let msgType = 'SUMMARY';
+        switch(promptType) {
+            case promptTypes.flashCards:
+                msgType = 'FLASHCARD';
+                break;
+            case promptTypes.quiz:
+                msgType = 'QUIZ';
+                break;
+        }
 
         chrome.runtime.sendMessage({
-            type: 'STORE_DOC_TEXT',
+            type: msgType,
             payload: documentData
         }, response => {
             if (chrome.runtime.lastError) {
                 console.error("Error sending message:", chrome.runtime.lastError);
                 return;
             }
-            if (response && response.extractedText) {
-                callback(response.extractedText);
+            if (response && response.answer) {
+                callback(response.answer);
             }
         });
     }
 
-    function exitPopup(shadow) {
+    function exitPopup() {
         console.log("Exiting popup");
         // Find the root popup div in the main document, not in shadow
         const popupDiv = document.getElementById('extension-popup');
@@ -147,6 +181,41 @@
         } else {
             console.log("Popup div not found");
         }
+    }
+
+
+    function copyPrompt() {
+        console.log("copying text");
+        chrome.storage.local.get("answer", (result) => {
+            if (result.answer) {
+                navigator.clipboard.writeText(result.answer)
+                    .then(() => console.log("Extracted text copied to clipboard!"))
+                    .catch(err => console.error("Failed to copy text:", err));
+            } else {
+                console.warn("No extracted text found in storage!");
+            }
+        });
+    }
+
+    function reloadSummarizePrompt(shadow) {
+        updateDocumentReadText(shadow, "Regenerating summary...");
+        readDocument(promptTypes.summary, (answer) => {
+            updateDocumentReadText(shadow, answer);
+        });
+    }
+
+    function flashCardPrompt(shadow) {
+        updateDocumentReadText(shadow, "Generating flash cards...");
+        readDocument(promptTypes.flashCards, (answer) => {
+            updateDocumentReadText(shadow, answer);
+        });
+    }
+
+    function quizPrompt(shadow) {
+        updateDocumentReadText(shadow, "Generating quiz...");
+        readDocument(promptTypes.quiz, (answer) => {
+            updateDocumentReadText(shadow, answer);
+        });
     }
 
     function initialize() {
