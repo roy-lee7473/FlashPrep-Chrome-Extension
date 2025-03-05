@@ -102,6 +102,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 // Check if the response is OK
                 if (!response.ok) {
+                    sendResponse({ error: response.status });
+                    const responseText = await response.text();
+                    console.error("Error details:", responseText);
                     throw new Error(`Error: ${response.status}`);
                 }
 
@@ -127,13 +130,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 // Format the response for display depending on the request type
                 if (request.type === 'SUMMARY') {
-                    responseText = `<h2><b>Website Summary</b></h2><br>${answer}<br><br>`;
+                    responseText = `<h2><b>Website Summary:</b></h2><br>${answer}<br><br>`;
                 }
                 else if (request.type === 'FLASHCARD') {
-                    responseText = `<h2><b>Flashcards</b></h2><br>${answer}<br><br>`;
+                    responseText = `<h2><b>Flashcards:</b></h2><br>${answer}<br><br>`;
                 }
                 else {
-                    responseText = `<h2><b>Quiz</b></h2><br>${answer}<br><br>`;
+                    responseText = `<h2><b>Quiz:</b></h2><br>${answer}<br><br>`;
                 }
 
                 //catch any errors

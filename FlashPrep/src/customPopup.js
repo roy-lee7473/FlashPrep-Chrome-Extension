@@ -51,7 +51,7 @@
                     // Append the popup div to the body
                     document.body.appendChild(popupDiv);
                     
-        
+                    typeText(shadow, "Generating summary...", 25);
                     // Wait for DOM to be updated and initialize the counter
                     setTimeout(() => {
                         // Initialize event listeners
@@ -59,7 +59,7 @@
 
                         // Restore extracted text from local storage instead of sync
                         readDocument(promptTypes.summary, (extractedText) => {
-                            updateDocumentReadText(shadow, extractedText);
+                            typeText(shadow, extractedText);
                         });
                     }, 0);
                 })
@@ -131,6 +131,67 @@
         if (extractedText) extractedText.innerHTML = text;
     }
 
+
+
+    function typeText(shadow, htmlContent, speed = 1) {
+        const extractedText = shadow.querySelector('#extractedText');
+        extractedText.innerHTML = ""; // Clear existing text
+    
+        let tempDiv = document.createElement("div"); // Temporary container to parse HTML
+        tempDiv.innerHTML = htmlContent; // Set HTML content for processing
+    
+        let nodes = Array.from(tempDiv.childNodes); // Extract nodes (text and elements)
+        let index = 0;
+    
+        function typeNextNode() {
+            if (index < nodes.length) {
+                let node = nodes[index].cloneNode(true); // Clone to avoid modifying original
+                index++;
+    
+                if (node.nodeType === Node.TEXT_NODE) {
+                    // If it's a text node, type it out character by character
+                    typeTextNode(node.textContent, speed, function(typedText) {
+                        extractedText.innerHTML += typedText; // Append the typed text
+                        typeNextNode(); // Continue with next node
+                    });
+                } else {
+                    // If it's an element (e.g., <b>, <i>, <p>), append immediately
+                    extractedText.appendChild(node);
+                    typeNextNode(); // Continue with next node
+                }
+            }
+        }
+    
+        typeNextNode(); // Start typing effect
+    }
+    
+    // Function to type out text inside an element while keeping formatting
+    function typeTextNode(text, speed, callback) {
+        let i = 0;
+        let typedText = "";
+    
+        function typeCharacter() {
+            if (i < text.length) {
+                typedText += text[i]; // Add next character
+                i++;
+                setTimeout(typeCharacter, speed);
+            } else {
+                callback(typedText); // Send back completed text after typing
+            }
+        }
+    
+        typeCharacter();
+    }
+    
+    
+
+
+
+
+
+
+    
+
     function readDocument(promptType, callback) {
         console.log("Reading document");
         const documentData = {
@@ -166,6 +227,9 @@
                 console.error("Error sending message:", chrome.runtime.lastError);
                 return;
             }
+            if(response && response.error) {
+                callback("Error: "+response.error);
+            }
             if (response && response.answer) {
                 callback(response.answer);
             }
@@ -198,23 +262,23 @@
     }
 
     function reloadSummarizePrompt(shadow) {
-        updateDocumentReadText(shadow, "Regenerating summary...");
+        typeText(shadow, "Regenerating summary...", 25);
         readDocument(promptTypes.summary, (answer) => {
-            updateDocumentReadText(shadow, answer);
+            typeText(shadow, answer);
         });
     }
 
     function flashCardPrompt(shadow) {
-        updateDocumentReadText(shadow, "Generating flash cards...");
+        typeText(shadow, "Generating flash cards...", 25);
         readDocument(promptTypes.flashCards, (answer) => {
-            updateDocumentReadText(shadow, answer);
+            typeText(shadow, answer);
         });
     }
 
     function quizPrompt(shadow) {
-        updateDocumentReadText(shadow, "Generating quiz...");
+        typeText(shadow, "Generating quiz...", 25);
         readDocument(promptTypes.quiz, (answer) => {
-            updateDocumentReadText(shadow, answer);
+            typeText(shadow, answer);
         });
     }
 
