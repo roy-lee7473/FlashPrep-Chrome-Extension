@@ -61,6 +61,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             `<h2><b>Keywords:</b></h2>${cleanUpText(documentData.metakeywords)}<br><br>` +
             `<h2><b>Content:</b></h2>${cleanUpText(documentData.content)}<br><br>` +
             `<h2><b>Images:</b></h2>${cleanUpText(documentData.images.join("<br>"))}`;
+       
 
         processText();
         async function processText() {
@@ -88,7 +89,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer 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",
+                        "Authorization": "Bearer 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",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
@@ -130,13 +131,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 // Format the response for display depending on the request type
                 if (request.type === 'SUMMARY') {
-                    responseText = `<h2><b>Website Summary:</b></h2><br>${answer}<br><br>`;
+                    responseText = `<h2><b>Website Summary</b></h2><br>${answer}<br><br>`;
                 }
                 else if (request.type === 'FLASHCARD') {
-                    responseText = `<h2><b>Flashcards:</b></h2><br>${answer}<br><br>`;
+                    responseText = `<h2><b>Keywords</b></h2><br>${answer}<br><br>`;
                 }
                 else {
-                    responseText = `<h2><b>Quiz:</b></h2><br>${answer}<br><br>`;
+                    responseText = `<h2><b>Quiz</b></h2><br>${answer}<br><br>`;
                 }
 
                 //catch any errors

@@ -2,253 +2,275 @@
 *,
 *::before,
 *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 /* normalize css ends here */
 
-
 .extension-popup {
-    width: 350px;
-    height: 90vh;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 2147483647;
-    background-color: rgba(255, 255, 255, 0);
+  width: 350px;
+  height: 90vh;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  background-color: rgba(255, 255, 255, 0);
 }
-
 
 .app {
-    --container-radius: 20px;  /* Keep variable definition in .app */
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    border-radius: var(--container-radius);
-    background-color: white;
-    padding: 10px;
-    box-shadow: 
-        0 0 2px #356624,
-        0 0 5px #356624;
-    color: black;
-    position: relative;  /* Add this to ensure proper positioning context */
+  --container-radius: 20px; /* Keep variable definition in .app */
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border-radius: var(--container-radius);
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0 0 2px #356624, 0 0 5px #356624;
+  color: black;
+  position: relative; /* Add this to ensure proper positioning context */
 }
 
-
 .padding {
-    padding: 20px;
+  padding: 20px;
 }
 
 .title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
 .subtitle {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 code {
-    font-size: 12px;
-    font-family: inherit;
-    background-color: rgba(254, 237, 185, .3);
-    padding: 2px 4px;
-    border-radius: 2px;
+  font-size: 12px;
+  font-family: inherit;
+  background-color: rgba(254, 237, 185, 0.3);
+  padding: 2px 4px;
+  border-radius: 2px;
 }
 
 .counter-label {
-    font-size: 12px;
-    margin-bottom: 5px;
+  font-size: 12px;
+  margin-bottom: 5px;
 }
 
 .counter {
-    font-size: 36px;
-    font-weight: 700;
+  font-size: 36px;
+  font-weight: 700;
 }
 
 .button-container {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    padding: 5px;
-    margin-top: 0px;
-    margin-left: 32px;  /* Add left margin */
-    margin-right: 32px;  /* Add right margin */
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  margin-top: 0px;
+  margin-left: 32px; /* Add left margin */
+  margin-right: 32px; /* Add right margin */
 }
 
 .button img {
-    width: 24px;  /* or whatever size you want */
-    height: 24px;
+  width: 24px; /* or whatever size you want */
+  height: 24px;
 }
 
 /* Remove default button styling */
 
 .button {
-    border: 0;
-    width: 55px;  /* Set fixed width */
-    height: 55px; /* Set fixed height equal to width */
-    background-color: #E9EDE9;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 50%;  /* Use percentage instead of pixels */
-    text-decoration: none;
-    transition: transform .2s ease;
-    user-select: none;
-    color: black;
-    display: flex;  /* Add this to center the image */
-    align-items: center;  /* Center vertically */
-    justify-content: center;  /* Center horizontally */
-    padding: 0;  /* Remove padding since we're using fixed dimensions */
+  border: 0;
+  width: 55px; /* Set fixed width */
+  height: 55px; /* Set fixed height equal to width */
+  background-color: #e9ede9;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50%; /* Use percentage instead of pixels */
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  user-select: none;
+  color: black;
+  display: flex; /* Add this to center the image */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  padding: 0; /* Remove padding since we're using fixed dimensions */
 }
 .button img {
-    width: 30px;  /* or whatever size you want */
-    height: auto;
+  width: 30px; /* or whatever size you want */
+  height: auto;
 }
 .button:focus {
-    outline: none;
+  outline: none;
 }
 
 .button:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .imageButton {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 .imageButton:focus {
-    outline: none;
+  outline: none;
 }
 
 .imageButton:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 /* If you need specific sizes for different buttons */
 .settingsButton img {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .exitButton img {
-    width: 22px;
-    height: 22px;
-    margin-left: auto;
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
 }
 
-
 .divider {
-    margin: 30px auto 25px;
-    width: 50px;
-    border: .5px dashed #000;
-    opacity: .1;
+  margin: 30px auto 25px;
+  width: 50px;
+  border: 0.5px dashed #000;
+  opacity: 0.1;
 }
 
 .outputTextBox {
-    text-align: left;
-    width: 98%;
-    padding: 10px;
-    margin-left: 10px;
-    margin-right: 15px;
-    margin-top: 40px;   
-    height: calc(90vh - 20px - 150px);
-    overflow-y: auto;
-    overflow-x: hidden;        /* Prevent horizontal scrolling */
-    background-color: white;
-    font-size: 14px;
-    line-height: 1.5;
-    word-wrap: break-word;     /* Force text to wrap */
-    overflow-wrap: break-word;  
-    word-break: normal;
-    hyphens: auto;
-    white-space: normal;       /* Ensure text wraps */
+  text-align: left;
+  width: 98%;
+  padding: 10px;
+  margin-left: 10px;
+  margin-right: 15px;
+  margin-top: 40px;
+  height: calc(90vh - 20px - 150px);
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  background-color: white;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word; /* Force text to wrap */
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  white-space: normal; /* Ensure text wraps */
+}
+
+.blink {
+  animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+  0%,
+  100% {
+    opacity: 1; /* Fully visible at start/end */
+  }
+  50% {
+    opacity: 0; /* Invisible midway through */
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .curved-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background-color: #F4F5F4;
-    border-radius: 60px 60px 150% 150% / 100% 100% 150% 150%;  /* Use variable for top corners */
-    z-index: 1;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);  /* Adds shadow only to bottom */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: #f4f5f4;
+  border-radius: 60px 60px 150% 150% / 100% 100% 150% 150%; /* Use variable for top corners */
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26); /* Adds shadow only to bottom */
 }
 
 .curved-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 90px;
-    background-color: #F4F5F4;
-    border-radius: 0 0 var(--container-radius) var(--container-radius);
-    z-index: 1;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.26);  /* Adds shadow only to top */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background-color: #f4f5f4;
+  border-radius: 0 0 var(--container-radius) var(--container-radius);
+  z-index: 1;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.26); /* Adds shadow only to top */
 }
 
 .topImages {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* This spreads out the items */
-    flex-direction: row;
-    padding: 0;
-    position: relative;
-    z-index: 2;  /* Ensure buttons stay on top */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* This spreads out the items */
+  flex-direction: row;
+  padding: 0;
+  position: relative;
+  z-index: 2; /* Ensure buttons stay on top */
 }
 
 .settingsButton {
-    order: 1; /* First item */
+  order: 1; /* First item */
 }
 
 .logo {
-    width: 50px;
-    height: auto;
-    order: 2; /* Middle item */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    padding-top: 10%;
-    padding-bottom: 5%;
+  width: 50px;
+  height: auto;
+  order: 2; /* Middle item */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 10%;
+  padding-bottom: 5%;
 }
 
 .exitButton {
-    order: 3; /* Last item */
-    margin-left: auto; /* Pushes the exit button to the right */
+  order: 3; /* Last item */
+  margin-left: auto; /* Pushes the exit button to the right */
 }
 
 .how-to-use-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    z-index: 3;  /* Ensure it's above the curved footer */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform .2s ease;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 3; /* Ensure it's above the curved footer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
 }
 
 .how-to-use-button img {
-    width: 20px;  /* Small fixed width */
-    height: 20px; /* Small fixed height */
+  width: 20px; /* Small fixed width */
+  height: 20px; /* Small fixed height */
 }
 
 .how-to-use-button:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .how-to-use-button:focus {
-    outline: none;
+  outline: none;
 }
