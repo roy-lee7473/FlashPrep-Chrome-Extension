@@ -1,4 +1,5 @@
 import { SUMMARIZE_PROMPT2, FLASHCARD_PROMPT, QUIZ_PROMPT } from "./prompt.js";
+import { OPENROUTER_API_KEY } from "./config.js";
 'use strict';
 
 
@@ -89,11 +90,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer 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",
-                        "Content-Type": "application/json"
+                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        model: "google/gemini-2.0-flash-lite-preview-02-05:free",
+                        model: "google/gemini-2.0-flash-lite-001",
                         messages: [{
                             role: "user",
                             content: [{ type: "text", text: my_prompt }]
